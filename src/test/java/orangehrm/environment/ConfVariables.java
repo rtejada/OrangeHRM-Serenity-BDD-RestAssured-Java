@@ -1,9 +1,11 @@
-package environment;
+package orangehrm.environment;
 
 
 import java.util.Optional;
 
 public class ConfVariables {
+
+    private ConfVariables(){}
 
     public static  String getClientId(){
         return Optional.ofNullable(System.getenv("HRMClientId"))

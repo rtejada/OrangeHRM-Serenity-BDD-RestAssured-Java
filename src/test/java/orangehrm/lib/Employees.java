@@ -1,9 +1,9 @@
-package lib;
+package orangehrm.lib;
 
-import environment.ConfVariables;
+import orangehrm.environment.ConfVariables;
 import io.restassured.http.ContentType;
 import net.serenitybdd.rest.SerenityRest;
-import oauth2.oauthToken;
+import orangehrm.oauth2.oauthToken;
 import org.json.simple.JSONObject;
 
 import static io.restassured.RestAssured.given;

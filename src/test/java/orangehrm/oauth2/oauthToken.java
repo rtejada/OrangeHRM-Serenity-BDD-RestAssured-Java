@@ -1,6 +1,6 @@
-package oauth2;
+package orangehrm.oauth2;
 
-import environment.ConfVariables;
+import orangehrm.environment.ConfVariables;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;

@@ -1,9 +1,9 @@
-package steps;
+package orangehrm.steps;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import lib.Employees;
+import orangehrm.lib.Employees;
 import net.thucydides.core.annotations.Steps;
 import org.apache.http.HttpStatus;
 
