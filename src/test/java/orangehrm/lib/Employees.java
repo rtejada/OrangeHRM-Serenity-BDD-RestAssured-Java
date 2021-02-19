@@ -1,9 +1,12 @@
 package orangehrm.lib;
 
+import io.restassured.http.Header;
 import orangehrm.environment.ConfVariables;
 import io.restassured.http.ContentType;
 import net.serenitybdd.rest.SerenityRest;
 import orangehrm.oauth2.oauthToken;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 
 import static io.restassured.RestAssured.given;
@@ -11,8 +14,9 @@ import static io.restassured.RestAssured.given;
 public class Employees {
 
     public String accessToken = "";
-    final String ACTION = "employee/";
-    final String ORGANIZATION = "organization";
+
+    static final String action = "employee/";
+    static final String organization = "organization";
 
 
     public String getRandomId(){
@@ -26,37 +30,29 @@ public class Employees {
 
         accessToken = oauth.getOauth_token();
 
-        int statusCode = given()
-                .headers(
-                        "Authorization",
-                        "Bearer " + accessToken)
+        return given()
+                .header(getAuthorizationHeader(accessToken))
+                .header(getContentTypeHeader())
                 .relaxedHTTPSValidation()
                 .when()
-                .get(ConfVariables.getUrlBase()+ConfVariables.getPath()+ORGANIZATION)
+                .get(ConfVariables.getUrlBase()+ConfVariables.getPath()+organization)
                 .statusCode();
-
-        return statusCode;
 
     }
 
     public void getEmployee(){
 
         SerenityRest.given()
-                .headers(
-                        "Authorization",
-                        "Bearer " + accessToken,
-                        "Accept", ContentType.JSON)
+                .header(getAuthorizationHeader(accessToken))
+                .header(getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
-                .get(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + ConfVariables.getEmployeeId());
-
-
+                .get(ConfVariables.getUrlBase() + ConfVariables.getPath() + action + ConfVariables.getEmployeeId());
 
     }
 
     public void createEmployee(String name, String middlename, String lastname){
-
 
         JSONObject requestParams = new JSONObject();
 
@@ -65,16 +61,15 @@ public class Employees {
         requestParams.put("lastName", lastname);
         requestParams.put("code", "ID"+ getRandomId());
 
+
         SerenityRest.given()
-                .headers(
-                        "Authorization",
-                        "Bearer " + accessToken,
-                        "Accept", ContentType.JSON)
+                .header(getAuthorizationHeader(accessToken))
+                .header(getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
                 .body(requestParams.toJSONString())
-                .post(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + ConfVariables.getEmployeeId());
+                .post(ConfVariables.getUrlBase() + ConfVariables.getPath() + action + ConfVariables.getEmployeeId());
 
     }
 
@@ -91,17 +86,25 @@ public class Employees {
         requestParams.put("dob",  "1988-05-13");
 
         SerenityRest.given()
-                .headers(
-                        "Authorization",
-                        "Bearer " + accessToken,
-                        "Accept", ContentType.JSON)
+                .header(getAuthorizationHeader(accessToken))
+                .header(getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
                 .body(requestParams.toJSONString())
-                .put(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + ConfVariables.getEmployeeId());
+                .put(ConfVariables.getUrlBase() + ConfVariables.getPath() + action + ConfVariables.getEmployeeId());
+    }
 
+    @NotNull
+    @Contract("_ -> new")
+    private Header getAuthorizationHeader(String accessToken) {
+        return new Header("Authorization", "Bearer " + accessToken);
+    }
 
+    @NotNull
+    @Contract(" -> new")
+    private Header getContentTypeHeader() {
+        return new Header("Accept", ContentType.JSON.toString());
     }
 
 }
