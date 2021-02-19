@@ -4,38 +4,50 @@ import io.restassured.http.Header;
 import orangehrm.environment.ConfVariables;
 import io.restassured.http.ContentType;
 import net.serenitybdd.rest.SerenityRest;
-import orangehrm.oauth2.oauthToken;
+import orangehrm.oauth2.OauthToken;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
+import java.security.SecureRandom;
+import java.security.NoSuchAlgorithmException;
 
 import static io.restassured.RestAssured.given;
 
 public class Employees {
 
-    public String accessToken = "";
+    private String accessToken = "";
 
-    static final String action = "employee/";
-    static final String organization = "organization";
+    static final String ACTION = "employee/";
+    static final String ORGANIZATION = "organization";
 
 
     public String getRandomId(){
-         return String.valueOf(Math.random()*1000000);
+
+        try {
+
+            SecureRandom number = SecureRandom.getInstance("SHA1PRNG");
+            return String.valueOf(number.nextInt(1000000));
+
+        } catch (NoSuchAlgorithmException e) {
+
+            return "";
+        }
+
     }
 
 
     public int currentStatus() {
 
-        oauthToken oauth = new oauthToken();
+        OauthToken oauth = new OauthToken();
 
-        accessToken = oauth.getOauth_token();
+        accessToken = oauth.getOauthToken();
 
         return given()
                 .header(getAuthorizationHeader(accessToken))
                 .header(getContentTypeHeader())
                 .relaxedHTTPSValidation()
                 .when()
-                .get(ConfVariables.getUrlBase()+ConfVariables.getPath()+organization)
+                .get(ConfVariables.getUrlBase()+ConfVariables.getPath()+ORGANIZATION)
                 .statusCode();
 
     }
@@ -48,7 +60,7 @@ public class Employees {
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
-                .get(ConfVariables.getUrlBase() + ConfVariables.getPath() + action + ConfVariables.getEmployeeId());
+                .get(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + ConfVariables.getEmployeeId());
 
     }
 
@@ -69,7 +81,7 @@ public class Employees {
                 .relaxedHTTPSValidation()
                 .when()
                 .body(requestParams.toJSONString())
-                .post(ConfVariables.getUrlBase() + ConfVariables.getPath() + action + ConfVariables.getEmployeeId());
+                .post(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + ConfVariables.getEmployeeId());
 
     }
 
@@ -92,7 +104,7 @@ public class Employees {
                 .relaxedHTTPSValidation()
                 .when()
                 .body(requestParams.toJSONString())
-                .put(ConfVariables.getUrlBase() + ConfVariables.getPath() + action + ConfVariables.getEmployeeId());
+                .put(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + ConfVariables.getEmployeeId());
     }
 
     @NotNull

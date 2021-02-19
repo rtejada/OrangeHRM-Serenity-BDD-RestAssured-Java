@@ -41,7 +41,7 @@ public class ApplicationProperties {
         try {
             prop.load(getClassLoader().getResourceAsStream(fileName));
         } catch (IOException e) {
-            e.printStackTrace();
+
             logger.error("Unable to load the file {}", fileName);
         }
 

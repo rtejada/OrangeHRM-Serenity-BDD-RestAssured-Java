@@ -5,9 +5,9 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
-public class oauthToken {
+public class OauthToken {
 
-    public String getOauth_token(){
+    public String getOauthToken(){
 
         Response resp = RestAssured
                 .given().relaxedHTTPSValidation()
