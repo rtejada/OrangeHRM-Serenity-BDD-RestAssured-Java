@@ -16,29 +16,29 @@ public class CheckEmployeeSteps {
     Employees employees;
 
     @Given("the application is running")
-    public void the_application_is_running(){
+    public void theApplicationIsRunning(){
         assertThat(employees.currentStatus()).isEqualTo(HttpStatus.SC_OK);
     }
 
     @When("I want to get a specific employee")
-    public void i_want_to_get_a_specific_employee(){
+    public void iWantToGetSpecificEmployee(){
         employees.getEmployee();
     }
 
     @When("I want to create a new employee {string}, {string}, {string}")
-    public void i_want_to_create_a_new_employee(String name, String middlename, String lastname) {
+    public void iWantToCreateANewEmployee(String name, String middlename, String lastname) {
         employees.createEmployee(name, middlename, lastname);
 
     }
 
     @When("I want to update data employee")
-    public void i_want_to_update_data_employee(){
+    public void iWantToUpdateDataEmployee(){
         employees.updateEmployee();
 
     }
 
     @Then("the API should return the status {string}")
-    public void the_API_should_return(String expectedStatus){
+    public void theAPIShouldReturn(String expectedStatus){
 
         restAssuredThat(lastResponse -> lastResponse.statusCode(Integer.parseInt(expectedStatus)));
 
