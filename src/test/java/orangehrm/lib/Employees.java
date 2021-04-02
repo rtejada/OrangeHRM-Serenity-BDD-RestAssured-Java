@@ -1,19 +1,18 @@
 package orangehrm.lib;
 
-import io.restassured.http.Header;
-import orangehrm.environment.ConfVariables;
 import io.restassured.http.ContentType;
 import net.serenitybdd.rest.SerenityRest;
+import orangehrm.environment.ConfVariables;
+import orangehrm.headers.Headers;
 import orangehrm.oauth2.OauthToken;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
-import java.security.SecureRandom;
+
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 import static io.restassured.RestAssured.given;
 
-public class Employees {
+public class Employees extends Headers {
 
     private String accessToken = "";
 
@@ -105,18 +104,6 @@ public class Employees {
                 .when()
                 .body(requestParams.toJSONString())
                 .put(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + ConfVariables.getEmployeeId());
-    }
-
-    @NotNull
-    @Contract("_ -> new")
-    private Header getAuthorizationHeader(String accessToken) {
-        return new Header("Authorization", "Bearer " + accessToken);
-    }
-
-    @NotNull
-    @Contract(" -> new")
-    private Header getContentTypeHeader() {
-        return new Header("Accept", ContentType.JSON.toString());
     }
 
 }
