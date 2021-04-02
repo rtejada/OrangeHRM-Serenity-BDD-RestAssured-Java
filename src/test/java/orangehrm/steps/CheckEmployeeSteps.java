@@ -1,5 +1,6 @@
 package orangehrm.steps;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -32,9 +33,9 @@ public class CheckEmployeeSteps {
 
     }
 
-    @When("I want to update data employee")
-    public void iWantToUpdateDataEmployee(){
-        employees.updateEmployee();
+    @When("I want to update data employee {string}, {string}, {string}")
+    public void iWantToUpdateDataEmployee(String otherId, String status, String nationality){
+        employees.updateEmployee(otherId, status, nationality);
 
     }
 
@@ -45,4 +46,8 @@ public class CheckEmployeeSteps {
 
     }
 
+    @And("the employees data has been modified")
+    public void theEmployeesDataHasBeenModified() {
+
+    }
 }
