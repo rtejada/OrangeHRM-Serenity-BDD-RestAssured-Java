@@ -1,7 +1,6 @@
 package orangehrm.lib;
 
 import io.restassured.http.ContentType;
-import io.restassured.http.Header;
 import io.restassured.path.json.JsonPath;
 import net.serenitybdd.rest.SerenityRest;
 import orangehrm.data.OrganizationInfoResponse;
@@ -9,13 +8,11 @@ import orangehrm.environment.ConfVariables;
 import orangehrm.headers.Headers;
 import orangehrm.oauth2.OauthToken;
 import org.apache.http.HttpStatus;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class Organization extends Headers {
+public class Organization {
 
 
     static final String ACTION = "organization";
@@ -23,6 +20,7 @@ public class Organization extends Headers {
 
 
     OauthToken oauthToken = new OauthToken();
+    Headers headers = new Headers();
 
 
 
@@ -30,8 +28,8 @@ public class Organization extends Headers {
 
         response = SerenityRest
                 .given()
-                .header(getAuthorizationHeader(oauthToken.getOauthToken()))
-                .header(getContentTypeHeader())
+                .header(headers.getAuthorizationHeader(oauthToken.getOauthToken()))
+                .header(headers.getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()

@@ -12,12 +12,14 @@ import java.security.SecureRandom;
 
 import static io.restassured.RestAssured.given;
 
-public class Employees extends Headers {
+public class Employees {
 
     private String accessToken = "";
 
     static final String ACTION = "employee/";
     static final String ORGANIZATION = "organization";
+
+    Headers headers = new Headers();
 
 
     public String getRandomId(){
@@ -42,8 +44,8 @@ public class Employees extends Headers {
         accessToken = oauth.getOauthToken();
 
         return given()
-                .header(getAuthorizationHeader(accessToken))
-                .header(getContentTypeHeader())
+                .header(headers.getAuthorizationHeader(accessToken))
+                .header(headers.getContentTypeHeader())
                 .relaxedHTTPSValidation()
                 .when()
                 .get(ConfVariables.getUrlBase()+ConfVariables.getPath()+ORGANIZATION)
@@ -54,8 +56,8 @@ public class Employees extends Headers {
     public void getEmployee(){
 
         SerenityRest.given()
-                .header(getAuthorizationHeader(accessToken))
-                .header(getContentTypeHeader())
+                .header(headers.getAuthorizationHeader(accessToken))
+                .header(headers.getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
@@ -74,8 +76,8 @@ public class Employees extends Headers {
 
 
         SerenityRest.given()
-                .header(getAuthorizationHeader(accessToken))
-                .header(getContentTypeHeader())
+                .header(headers.getAuthorizationHeader(accessToken))
+                .header(headers.getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
@@ -97,8 +99,8 @@ public class Employees extends Headers {
         requestParams.put("dob",  "1988-05-13");
 
         SerenityRest.given()
-                .header(getAuthorizationHeader(accessToken))
-                .header(getContentTypeHeader())
+                .header(headers.getAuthorizationHeader(accessToken))
+                .header(headers.getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
