@@ -9,12 +9,9 @@ import orangehrm.oauth2.OauthToken;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONObject;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-
 import static io.restassured.RestAssured.given;
 
-public class Employees {
+public class Employee extends BaseTest {
 
     private String accessToken = "";
 
@@ -26,9 +23,7 @@ public class Employees {
     JsonPath response;
 
 
-
-
-    public Employees setAuthToken() {
+    public Employee setAuthToken() {
         OauthToken oauth = new OauthToken();
         accessToken = oauth.getOauthToken();
         return this;
@@ -50,12 +45,13 @@ public class Employees {
 
     public void createEmployee(String name, String middlename, String lastname){
 
+
         JSONObject requestParams = new JSONObject();
 
-        requestParams.put("firstName", name + Random.randomString(8));
-        requestParams.put("middleName", middlename + Random.randomString(5));
-        requestParams.put("lastName", lastname+ Random.randomString(7));
-        requestParams.put("code", "ID"+ Random.getRandomId());
+        requestParams.put("firstName", name );
+        requestParams.put("middleName", middlename);
+        requestParams.put("lastName", lastname);
+        requestParams.put("code", "ID"+ Random.randomInt(1, 10000000));
 
 
         response = SerenityRest.given()
@@ -67,7 +63,7 @@ public class Employees {
                 .body(requestParams.toJSONString())
                 .post(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + ConfVariables.getEmployeeId())
                 .then()
-                .statusCode(HttpStatus.SC_OK)
+                .spec(defaultResponseSpecification())
                 .extract().body().jsonPath();
 
 
@@ -78,20 +74,21 @@ public class Employees {
     }
 
 
-    public void updateEmployee(String otherId, String status, String nationality){
+    public void updateEmployee(String name, String middleName, String lastName, String otherId, String status,
+                               String nationality, String dob, String driversLicenseNumber){
 
         JSONObject requestParams = new JSONObject();
 
-        requestParams.put("firstName", DataGenerator.getRandomName());
-        requestParams.put("middleName", DataGenerator.getRandomFirstName());
-        requestParams.put("lastName", DataGenerator.getRandomLastName());
-        requestParams.put("otherId", otherId + Random.getRandomId());
+        requestParams.put("firstName", name);
+        requestParams.put("middleName", middleName);
+        requestParams.put("lastName", lastName);
+        requestParams.put("otherId", otherId);
         requestParams.put("status", status);
         requestParams.put("nationality",  nationality);
-        requestParams.put("dob",  "1988-05-13");
-        requestParams.put("driversLicenseNumber", Random.randomInt(10, 100000000));
+        requestParams.put("dob",  dob);
+        requestParams.put("driversLicenseNumber", driversLicenseNumber);
 
-        SerenityRest.given()
+        response = SerenityRest.given()
                 .header(headers.getAuthorizationHeader(accessToken))
                 .header(headers.getContentTypeHeader())
                 .contentType(ContentType.JSON)
@@ -100,11 +97,13 @@ public class Employees {
                 .body(requestParams.toJSONString())
                 .put(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + employeeId())
                 .then()
-                .statusCode(HttpStatus.SC_OK);
+                .spec(defaultResponseSpecification())
+                .extract().body().jsonPath();
+
 
     }
 
-    public void getEmployee(){
+    public JsonPath getEmployee(String employeeId){
 
         response = SerenityRest.given()
                 .header(headers.getAuthorizationHeader(accessToken))
@@ -112,10 +111,12 @@ public class Employees {
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
-                .get(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + employeeId())
+                .get(ConfVariables.getUrlBase() + ConfVariables.getPath() +ACTION + employeeId)
                 .then()
-                .statusCode(HttpStatus.SC_OK)
+                .spec(defaultResponseSpecification())
                 .extract().body().jsonPath();
+
+        return response;
 
     }
 

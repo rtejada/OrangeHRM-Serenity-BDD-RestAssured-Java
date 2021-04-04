@@ -5,7 +5,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.thucydides.core.annotations.Steps;
 import orangehrm.lib.ContactDetails;
-import orangehrm.lib.Employees;
+import orangehrm.lib.Employee;
 
 import static net.serenitybdd.rest.SerenityRest.restAssuredThat;
 
@@ -18,15 +18,13 @@ public class ContactDetailsSteps {
 
     String employeeId;
 
-
-
     @Steps
     ContactDetails contactDetails;
 
     @And("I want to create a new employee")
     public void iWantToCreateANewEmployee() {
 
-        Employees employee = new Employees();
+        Employee employee = new Employee();
         employee
                 .setAuthToken()
                 .createEmployee("A", "B", "C");

@@ -3,6 +3,9 @@ package orangehrm.lib;
 import com.github.javafaker.Faker;
 import net.minidev.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DataGenerator {
 
     public static String getRandomUsername(){
@@ -66,6 +69,22 @@ public class DataGenerator {
 
         Faker faker = new Faker();
         return faker.address().country();
+
+    }
+
+
+    public static String getDateBirthday(){
+
+        Faker faker = new Faker();
+        Date date = faker.date().birthday();
+
+        System.out.println(date);
+
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        String dateBirthday = formatter.format(date);
+        return dateBirthday;
 
     }
 }
