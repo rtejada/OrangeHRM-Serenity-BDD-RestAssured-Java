@@ -17,7 +17,7 @@ import static net.serenitybdd.rest.SerenityRest.restAssuredThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class CheckEmployeeSteps {
+public class EmployeeSteps {
 
     String employeeId;
     String middleName;
@@ -74,14 +74,7 @@ public class CheckEmployeeSteps {
         assertThat(response.get("data.lastName"), equalTo(lastName));
         assertThat(response.get("data.dob"), equalTo(dob));
 
-
-
-        // assertThat(response.get("data.lastName").
-        //
-
-
     }
-
 
 
     @And("I create a new employee")

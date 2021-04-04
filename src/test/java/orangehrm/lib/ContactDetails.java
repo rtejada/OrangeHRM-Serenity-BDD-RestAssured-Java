@@ -3,13 +3,11 @@ package orangehrm.lib;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import net.serenitybdd.rest.SerenityRest;
-import orangehrm.environment.ConfVariables;
 import orangehrm.headers.Headers;
 import orangehrm.oauth2.OauthToken;
-import org.apache.http.HttpStatus;
 import org.json.simple.JSONObject;
 
-public class ContactDetails {
+public class ContactDetails extends BaseTest {
 
     static final String CONTACT_DETAIL = "/contact-detail";
     static final String ACTION = "employee/";
@@ -33,16 +31,16 @@ public class ContactDetails {
         requestParams.put("workEmail", Random.randomString(7) + worEmail);
         requestParams.put("otherEmail", Random.randomString(7) + otherEmail);
 
-        response = SerenityRest.given()
+        response = SerenityRest.given(defaultRequestSpecification())
                 .header(headers.getAuthorizationHeader(oauthToken.getOauthToken()))
                 .header(headers.getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
                 .body(requestParams.toJSONString())
-                .post(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + employeeId + CONTACT_DETAIL)
+                .post(ACTION + employeeId + CONTACT_DETAIL)
                 .then()
-                .statusCode(HttpStatus.SC_OK)
+                .spec(defaultResponseSpecification())
                 .extract().body().jsonPath();
     }
 

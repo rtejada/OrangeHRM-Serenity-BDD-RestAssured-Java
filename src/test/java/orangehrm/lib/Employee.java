@@ -6,7 +6,6 @@ import net.serenitybdd.rest.SerenityRest;
 import orangehrm.environment.ConfVariables;
 import orangehrm.headers.Headers;
 import orangehrm.oauth2.OauthToken;
-import org.apache.http.HttpStatus;
 import org.json.simple.JSONObject;
 
 import static io.restassured.RestAssured.given;
@@ -54,14 +53,14 @@ public class Employee extends BaseTest {
         requestParams.put("code", "ID"+ Random.randomInt(1, 10000000));
 
 
-        response = SerenityRest.given()
+        response = SerenityRest.given(defaultRequestSpecification())
                 .header(headers.getAuthorizationHeader(accessToken))
                 .header(headers.getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
                 .body(requestParams.toJSONString())
-                .post(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + ConfVariables.getEmployeeId())
+                .post(ACTION + ConfVariables.getEmployeeId())
                 .then()
                 .spec(defaultResponseSpecification())
                 .extract().body().jsonPath();
@@ -88,14 +87,14 @@ public class Employee extends BaseTest {
         requestParams.put("dob",  dob);
         requestParams.put("driversLicenseNumber", driversLicenseNumber);
 
-        response = SerenityRest.given()
+        response = SerenityRest.given(defaultRequestSpecification())
                 .header(headers.getAuthorizationHeader(accessToken))
                 .header(headers.getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
                 .body(requestParams.toJSONString())
-                .put(ConfVariables.getUrlBase() + ConfVariables.getPath() + ACTION + employeeId())
+                .put(ACTION + employeeId())
                 .then()
                 .spec(defaultResponseSpecification())
                 .extract().body().jsonPath();
@@ -105,13 +104,13 @@ public class Employee extends BaseTest {
 
     public JsonPath getEmployee(String employeeId){
 
-        response = SerenityRest.given()
+        response = SerenityRest.given(defaultRequestSpecification())
                 .header(headers.getAuthorizationHeader(accessToken))
                 .header(headers.getContentTypeHeader())
                 .contentType(ContentType.JSON)
                 .relaxedHTTPSValidation()
                 .when()
-                .get(ConfVariables.getUrlBase() + ConfVariables.getPath() +ACTION + employeeId)
+                .get(ACTION + employeeId)
                 .then()
                 .spec(defaultResponseSpecification())
                 .extract().body().jsonPath();

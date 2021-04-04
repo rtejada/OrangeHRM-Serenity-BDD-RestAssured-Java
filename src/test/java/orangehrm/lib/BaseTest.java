@@ -20,19 +20,8 @@ import java.util.List;
 
 public abstract class BaseTest {
 
-    //private static final Logger logger = LogManager.getLogger(ReqRestTests.class);
 
-    @BeforeClass
-    public static void setup(){
-
-        //logger.info("Starting the configuration");
-
-        RestAssured.requestSpecification = defaultRequestSpecification();
-        //logger.info("successful configuration");
-
-    }
-
-    private static RequestSpecification defaultRequestSpecification() {
+    protected RequestSpecification defaultRequestSpecification() {
 
         List<Filter> filters = new ArrayList<>();
         filters.add(new RequestLoggingFilter());
