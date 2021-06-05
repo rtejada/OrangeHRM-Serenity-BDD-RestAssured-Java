@@ -1,12 +1,11 @@
 package orangehrm.lib;
 
 import com.github.javafaker.Faker;
-import net.minidev.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class example {
+public class DateExample {
 
     public static void main(String[] args) {
 

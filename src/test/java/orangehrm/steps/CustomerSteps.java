@@ -17,7 +17,7 @@ public class CustomerSteps {
 
     String name;
     String description;
-    String customerId;
+
 
     @Steps
     Customer customer;

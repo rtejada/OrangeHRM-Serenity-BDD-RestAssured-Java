@@ -3,7 +3,6 @@ package orangehrm.lib;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import net.serenitybdd.rest.SerenityRest;
-import orangehrm.environment.ConfVariables;
 import orangehrm.headers.Headers;
 import orangehrm.oauth2.OauthToken;
 import org.json.simple.JSONObject;

@@ -5,15 +5,14 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.restassured.path.json.JsonPath;
+import net.thucydides.core.annotations.Steps;
 import orangehrm.lib.DataGenerator;
 import orangehrm.lib.Employee;
-import net.thucydides.core.annotations.Steps;
 import orangehrm.lib.Random;
 import org.apache.http.HttpStatus;
 
 import static net.serenitybdd.rest.SerenityRest.restAssuredThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static net.serenitybdd.rest.SerenityRest.restAssuredThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
